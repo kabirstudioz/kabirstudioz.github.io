@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Kabir Studios — Video Editing &amp; Color Grading</title>
+<meta name="description" content="Kabir Raj Singh — video editor and colorist specializing in retention-driven short and long-form edits, documentary storytelling, and professional color grading." />
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%230B0C0D'/%3E%3Ctext x='50' y='66' font-size='42' font-family='Arial' font-weight='700' fill='%23E08A3E' text-anchor='middle'%3EKS%3C/text%3E%3C/svg%3E" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600&family=Instrument+Serif:ital@0;1&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#0B0C0D;
+    --ink-soft:#141517;
+    --fog:#EDEAE2;
+    --iron:#6E7072;
+    --ember:#E08A3E;
+    --teal:#2B7A78;
+  }
+
+  *{ margin:0; padding:0; box-sizing:border-box; }
+
+  html{ scroll-behavior:smooth; }
+
+  body{
+    background:var(--ink);
+    color:var(--fog);
+    font-family:'Archivo', sans-serif;
+    overflow-x:hidden;
+    min-height:100vh;
+  }
+
+  a{ color:inherit; text-decoration:none; }
+
+  button{ font-family:inherit; background:none; border:none; cursor:pointer; }
+
+  :focus-visible{ outline:2px solid var(--ember); outline-offset:3px; }
+
+  /* film-grain texture overlay */
+  .grain{
+    position:fixed; inset:0; z-index:90;
+    pointer-events:none; opacity:0.05;
+    filter:url(#grainFilter);
+    mix-blend-mode:overlay;
+  }
+
+  /* nav */
+  nav{
+    position:fixed; top:0; left:0; right:0; z-index:80;
+    display:flex; align-items:center; justify-content:space-between;
+    padding:1.75rem clamp(1.25rem, 4vw, 3rem);
+  }
+
+  .nav-mark{
+    font-family:'Space Grotesk', sans-serif;
+    font-weight:700; font-size:1.05rem; letter-spacing:0.04em;
+  }
+
+  .nav-toggle{
+    font-family:'Space Grotesk', sans-serif;
+    font-weight:500; font-size:0.85rem; letter-spacing:0.15em;
+    color:var(--fog); text-transform:uppercase;
+    padding:0.4rem 0;
+    position:relative;
+  }
+  .nav-toggle::after{
+    content:''; position:absolute; left:0; bottom:0; height:1px; width:0;
+    background:var(--ember); transition:width 0.3s ease;
+  }
+  .nav-toggle:hover::after{ width:100%; }
+
+  /* nav overlay menu */
+  .nav-overlay{
+    position:fixed; inset:0; z-index:70;
+    background:var(--ink);
+    display:flex; align-items:center; justify-content:center;
+    opacity:0; visibility:hidden; pointer-events:none;
+    transition:opacity 0.5s ease;
+  }
+  .nav-overlay.open{ opacity:1; visibility:visible; pointer-events:auto; }
+
+  .nav-overlay ul{
+    list-style:none; text-align:center;
+  }
+  .nav-overlay li{ margin:0.6rem 0; overflow:hidden; }
+  .nav-overlay a{
+    font-family:'Space Grotesk', sans-serif;
+    font-weight:600; text-transform:uppercase;
+    letter-spacing:0.03em;
+    font-size:clamp(1.75rem, 6vw, 3.25rem);
+    color:var(--fog);
+    display:inline-block;
+    transition:color 0.3s ease, transform 0.3s ease;
+  }
+  .nav-overlay a:hover{ color:var(--ember); transform:translateX(6px); }
+
+  /* hero */
+  .hero{
+    position:relative;
+    min-height:100vh;
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    text-align:center;
+    padding:6rem 1.5rem 4rem;
+    overflow:hidden;
+  }
+
+  /* placeholder ambient backdrop — swap for real showreel video later, see note near closing </body> tag */
+  .hero-bg{
+    position:absolute; inset:-15%; z-index:0;
+    background:
+      radial-gradient(circle at 22% 28%, rgba(43,122,120,0.30), transparent 45%),
+      radial-gradient(circle at 78% 72%, rgba(224,138,62,0.20), transparent 50%);
+    filter:blur(70px);
+    animation:drift 22s ease-in-out infinite alternate;
+  }
+  @keyframes drift{
+    0%{ transform:translate(0,0) scale(1); }
+    100%{ transform:translate(-3%, 2%) scale(1.06); }
+  }
+
+  .hero > *{ position:relative; z-index:1; }
+
+  .eyebrow{
+    font-family:'Instrument Serif', serif;
+    font-style:italic; font-weight:400;
+    font-size:clamp(1rem, 2vw, 1.25rem);
+    color:var(--iron);
+    margin-bottom:1.5rem;
+    letter-spacing:0.01em;
+  }
+
+  .wordmark{
+    font-family:'Space Grotesk', sans-serif;
+    font-weight:700;
+    text-transform:uppercase;
+    font-size:clamp(2.75rem, 11vw, 8rem);
+    line-height:0.98;
+    letter-spacing:-0.01em;
+    background:linear-gradient(90deg, var(--teal), var(--fog) 50%, var(--ember));
+    background-size:250% 100%;
+    background-position:100% 0;
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+    animation:grade-sweep 1.6s cubic-bezier(0.22,1,0.36,1) forwards;
+    animation-delay:0.2s;
+  }
+  @keyframes grade-sweep{ to{ background-position:0% 0; } }
+
+  .scramble-char{ opacity:0.85; }
+
+  .tagline{
+    margin-top:1.75rem;
+    font-size:clamp(1rem, 2vw, 1.2rem);
+    color:var(--fog);
+    max-width:30ch;
+    line-height:1.5;
+    opacity:0;
+    animation:rise 0.8s ease forwards;
+    animation-delay:1.7s;
+  }
+
+  .cta-group{
+    margin-top:2.75rem;
+    display:flex; gap:1rem; flex-wrap:wrap; justify-content:center;
+    opacity:0;
+    animation:rise 0.8s ease forwards;
+    animation-delay:2s;
+  }
+  @keyframes rise{ from{ opacity:0; transform:translateY(14px); } to{ opacity:1; transform:translateY(0); } }
+
+  .btn{
+    font-family:'Space Grotesk', sans-serif;
+    font-weight:600; font-size:0.9rem;
+    letter-spacing:0.03em;
+    padding:0.95rem 1.9rem;
+    border-radius:2px;
+    transition:transform 0.25s ease, background 0.25s ease, border-color 0.25s ease;
+    display:inline-block;
+  }
+  .btn.primary{ background:var(--ember); color:var(--ink); }
+  .btn.primary:hover{ transform:translateY(-2px); background:#ec9a52; }
+  .btn.secondary{ border:1px solid var(--iron); color:var(--fog); }
+  .btn.secondary:hover{ border-color:var(--fog); transform:translateY(-2px); }
+
+  .scroll-cue{
+    position:absolute; bottom:2.5rem; left:50%; transform:translateX(-50%);
+    width:1px; height:42px;
+    background:var(--iron);
+    overflow:hidden;
+    z-index:1;
+  }
+  .scroll-cue::after{
+    content:''; position:absolute; top:-100%; left:0; width:100%; height:100%;
+    background:var(--ember);
+    animation:cue-fall 2.2s ease-in-out infinite;
+  }
+  @keyframes cue-fall{ 0%{ top:-100%; } 60%{ top:100%; } 100%{ top:100%; } }
+
+  /* scrubber — fills as the page is scrolled, echoes an editing timeline */
+  .scrubber{
+    position:fixed; bottom:0; left:0; right:0; height:2px; z-index:80;
+    background:rgba(110,112,114,0.25);
+  }
+  .scrubber-fill{
+    height:100%; width:0%;
+    background:linear-gradient(90deg, var(--teal), var(--ember));
+  }
+
+  @media (max-width:640px){
+    nav{ padding:1.5rem 1.25rem; }
+    .cta-group{ flex-direction:column; align-items:stretch; width:100%; max-width:280px; }
+    .btn{ text-align:center; }
+  }
+
+  @media (prefers-reduced-motion:reduce){
+    .wordmark, .hero-bg, .scroll-cue::after, .tagline, .cta-group{
+      animation:none !important; opacity:1 !important; background-position:0% 0 !important;
+    }
+  }
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute">
+  <filter id="grainFilter">
+    <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" stitchTiles="stitch"/>
+    <feColorMatrix type="saturate" values="0"/>
+  </filter>
+</svg>
+<div class="grain" aria-hidden="true"></div>
+
+<nav>
+  <div class="nav-mark">KABIR STUDIOS</div>
+  <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="navOverlay">Menu</button>
+</nav>
+
+<div class="nav-overlay" id="navOverlay">
+  <ul>
+    <li><a href="#home">Home</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#showreel">Showreel</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</div>
+
+<section class="hero" id="home">
+  <!--
+    SWAP IN THE REAL SHOWREEL LATER:
+    Replace the line below --  <div class="hero-bg" aria-hidden="true"></div>  --
+    with:
+      <video class="hero-bg" autoplay muted loop playsinline aria-hidden="true">
+        <source src="showreel.mp4" type="video/mp4">
+      </video>
+    and add this CSS rule:
+      .hero-bg{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; opacity:0.35; filter:blur(0); animation:none; }
+  -->
+  <div class="hero-bg" aria-hidden="true"></div>
+
+  <p class="eyebrow">Video Editing — Color Grading — Documentary Storytelling</p>
+  <h1 class="wordmark" data-text="KABIR STUDIOS">KABIR STUDIOS</h1>
+  <p class="tagline">Edits built to hold attention. Grades built to hold mood.</p>
+
+  <div class="cta-group">
+    <a href="#showreel" class="btn primary">Watch the Showreel</a>
+    <a href="#contact" class="btn secondary">Get in Touch</a>
+  </div>
+
+  <div class="scroll-cue" aria-hidden="true"></div>
+</section>
+
+<div class="scrubber" aria-hidden="true"><div class="scrubber-fill" id="scrubberFill"></div></div>
+
+<script>
+  // scramble-reveal for the wordmark, echoing a color-grading "pass" as it settles
+  const CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ#%&*+-';
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function scramble(el){
+    const target = el.getAttribute('data-text');
+    if(reduceMotion){ el.textContent = target; return; }
+    let frame = 0;
+    const totalFrames = 34;
+    const reveal = Math.ceil(target.length / totalFrames * 2.2);
+    const revealed = [];
+
+    function tick(){
+      let out = '';
+      const lettersIn = Math.min(target.length, Math.floor(frame / (totalFrames/target.length) ));
+      for(let i=0;i<target.length;i++){
+        if(target[i] === ' '){ out += ' '; continue; }
+        if(i < lettersIn){ out += target[i]; }
+        else{ out += `<span class="scramble-char">${CHARS[Math.floor(Math.random()*CHARS.length)]}</span>`; }
+      }
+      el.innerHTML = out;
+      frame++;
+      if(lettersIn < target.length){
+        requestAnimationFrame(tick);
+      } else {
+        el.textContent = target;
+      }
+    }
+    tick();
+  }
+
+  window.addEventListener('DOMContentLoaded', () => {
+    scramble(document.querySelector('.wordmark'));
+  });
+
+  // nav overlay toggle
+  const navToggle = document.getElementById('navToggle');
+  const navOverlay = document.getElementById('navOverlay');
+  navToggle.addEventListener('click', () => {
+    const isOpen = navOverlay.classList.toggle('open');
+    navToggle.textContent = isOpen ? 'Close' : 'Menu';
+    navToggle.setAttribute('aria-expanded', isOpen);
+  });
+  navOverlay.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => {
+      navOverlay.classList.remove('open');
+      navToggle.textContent = 'Menu';
+      navToggle.setAttribute('aria-expanded', false);
+    });
+  });
+
+  // scrubber fill — tracks scroll like a playhead (fills up once more sections exist below)
+  function updateScrubber(){
+    const scrollable = document.documentElement.scrollHeight - window.innerHeight;
+    const pct = scrollable > 0 ? (window.scrollY / scrollable) * 100 : 0;
+    document.getElementById('scrubberFill').style.width = pct + '%';
+  }
+  window.addEventListener('scroll', updateScrubber);
+  window.addEventListener('resize', updateScrubber);
+</script>
+
+</body>
+</html>
