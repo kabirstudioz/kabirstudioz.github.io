@@ -75,19 +75,30 @@ export function HoverVideoCard({ videoSrc, videoLabel, children, className }: Ho
         }`}
       />
 
-      {/* Centered floating video preview */}
+      {/* Centered floating video preview with Apple-style animation */}
       {mounted &&
         createPortal(
           <div
             aria-hidden={!open}
-            className={`pointer-events-none fixed inset-0 z-90 flex items-center justify-center p-4 transition-opacity duration-300 sm:p-8 ${
-              open ? 'opacity-100' : 'opacity-0'
+            onClick={hide}
+            className={`pointer-events-none fixed inset-0 z-90 flex items-center justify-center p-4 transition-all duration-400 ease-out sm:p-8 ${
+              open ? 'opacity-100 backdrop-blur-md' : 'opacity-0 backdrop-blur-none'
             }`}
+            style={{
+              pointerEvents: open ? 'auto' : 'none',
+              backgroundColor: open ? 'rgba(0, 0, 0, 0.4)' : 'rgba(0, 0, 0, 0)',
+            }}
           >
             <div
-              className={`w-full max-w-2xl overflow-hidden border border-primary/40 bg-background shadow-2xl transition-transform duration-300 ease-out ${
-                open ? 'scale-100' : 'scale-95'
+              className={`video-card w-full max-w-2xl overflow-hidden border border-primary/40 bg-background transition-all duration-400 ease-out ${
+                open ? 'scale-100 opacity-100' : 'scale-95 opacity-0'
               }`}
+              onClick={(e) => e.stopPropagation()}
+              style={{
+                boxShadow: open
+                  ? '0 25px 50px -12px rgba(0, 0, 0, 0.5), inset 0 1px 1px rgba(255, 255, 255, 0.05)'
+                  : 'none',
+              }}
             >
               <div className="flex items-center justify-between border-b border-border px-4 py-2">
                 <span className="text-[10px] uppercase tracking-[0.25em] text-primary">{videoLabel}</span>

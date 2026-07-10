@@ -26,7 +26,7 @@ export function ContactForm({ selectedServices }: { selectedServices: Service[] 
   }
 
   const inputClasses =
-    'w-full border border-border bg-card px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary'
+    'w-full border border-border bg-card px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground transition-all duration-300 ease-out focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary focus:shadow-lg focus:shadow-primary/20'
 
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-5">
@@ -94,7 +94,7 @@ export function ContactForm({ selectedServices }: { selectedServices: Service[] 
       <div className="flex flex-wrap items-center gap-4">
         <button
           type="submit"
-          className="inline-flex items-center border border-primary bg-primary px-6 py-3 text-xs font-semibold uppercase tracking-[0.2em] text-primary-foreground transition-colors hover:bg-transparent hover:text-primary"
+          className="inline-flex items-center border border-primary bg-primary px-6 py-3 text-xs font-semibold uppercase tracking-[0.2em] text-primary-foreground transition-all duration-300 ease-out hover:bg-transparent hover:text-primary hover:shadow-lg hover:shadow-primary/30 menu-item"
         >
           {'Send Message'}
         </button>

@@ -44,10 +44,10 @@ export default function HomePage() {
               <StartProjectButton />
               <Link
                 href="/showreel"
-                className="inline-flex items-center gap-2 border border-border px-5 py-2.5 text-xs font-semibold uppercase tracking-[0.2em] text-foreground transition-colors hover:border-primary hover:text-primary"
+                className="inline-flex items-center gap-2 border border-border px-5 py-2.5 text-xs font-semibold uppercase tracking-[0.2em] text-foreground transition-all duration-300 ease-out hover:border-primary hover:text-primary hover:shadow-lg hover:shadow-primary/20 menu-item"
               >
                 {'Watch the Reel'}
-                <ArrowUpRight className="h-4 w-4" aria-hidden />
+                <ArrowUpRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" aria-hidden />
               </Link>
             </div>
           </Reveal>
@@ -76,15 +76,15 @@ export default function HomePage() {
                 <Reveal delay={i * 60}>
                   <Link
                     href={item.href}
-                    className="group flex items-baseline justify-between gap-4 border-b border-border py-6 transition-colors hover:border-primary"
+                    className="group flex items-baseline justify-between gap-4 border-b border-border py-6 transition-all duration-300 ease-out hover:border-primary hover:translate-x-1 menu-item"
                   >
                     <span className="flex items-baseline gap-4 sm:gap-8">
-                      <span className="text-xs tracking-[0.2em] text-primary">{`/ ${item.index}`}</span>
-                      <span className="text-2xl font-bold uppercase tracking-tight transition-colors group-hover:text-primary sm:text-4xl">
+                      <span className="text-xs tracking-[0.2em] text-primary transition-all duration-300">{`/ ${item.index}`}</span>
+                      <span className="text-2xl font-bold uppercase tracking-tight transition-all duration-300 group-hover:text-primary sm:text-4xl">
                         {item.label}
                       </span>
                     </span>
-                    <span className="hidden text-xs uppercase tracking-[0.15em] text-muted-foreground sm:block">
+                    <span className="hidden text-xs uppercase tracking-[0.15em] text-muted-foreground transition-all duration-300 group-hover:text-foreground sm:block">
                       {item.blurb}
                     </span>
                   </Link>
@@ -116,7 +116,7 @@ export default function HomePage() {
               <Reveal key={service.slug} delay={i * 60}>
                 <Link
                   href="/services"
-                  className="inline-flex items-center gap-3 border border-border px-4 py-3 text-xs font-semibold uppercase tracking-[0.15em] transition-colors hover:border-primary hover:text-primary"
+                  className="inline-flex items-center gap-3 border border-border px-4 py-3 text-xs font-semibold uppercase tracking-[0.15em] transition-all duration-300 ease-out hover:border-primary hover:text-primary hover:-translate-y-1 hover:shadow-lg hover:shadow-primary/20 menu-item"
                 >
                   <span className="text-primary">{service.number}</span>
                   {service.title}

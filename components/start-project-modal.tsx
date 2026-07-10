@@ -64,9 +64,13 @@ function StartProjectModal({ onClose }: { onClose: () => void }) {
 
   return createPortal(
     <div
-      className="fixed inset-0 z-100 flex items-center justify-center bg-background/80 p-4 backdrop-blur-sm sm:p-6"
+      className="fixed inset-0 z-100 flex items-center justify-center p-4 backdrop-blur-md transition-all duration-400 ease-out sm:p-6"
       onClick={onClose}
       role="presentation"
+      style={{
+        backgroundColor: 'rgba(0, 0, 0, 0.4)',
+        animation: 'fadeIn 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+      }}
     >
       <div
         ref={dialogRef}
@@ -75,7 +79,11 @@ function StartProjectModal({ onClose }: { onClose: () => void }) {
         aria-labelledby="start-project-title"
         tabIndex={-1}
         onClick={(e) => e.stopPropagation()}
-        className="max-h-[90vh] w-full max-w-2xl overflow-y-auto border border-border bg-card p-6 outline-none sm:p-10"
+        className="max-h-[90vh] w-full max-w-2xl overflow-y-auto border border-border bg-card p-6 outline-none transition-all duration-400 ease-out sm:p-10"
+        style={{
+          animation: 'fadeInScale 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+          boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.5), inset 0 1px 1px rgba(255, 255, 255, 0.05)',
+        }}
       >
         <div className="flex items-start justify-between gap-4">
           <div>
