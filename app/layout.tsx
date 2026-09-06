@@ -22,6 +22,7 @@ export const metadata: Metadata = {
   description:
     'Cinematic portfolio of Kabir Raj Singh — video editor, colorist, and visual storyteller from India. Retention-first edits, color grading, 3D, and applied AI tools.',
   generator: 'v0.app',
+  keywords: ['video editor', 'colorist', 'Kabir Studios', 'cinematic editing'],
 }
 
 export const viewport: Viewport = {
