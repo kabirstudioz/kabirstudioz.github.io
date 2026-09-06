@@ -21,7 +21,7 @@ export function SiteNav() {
   const [menuOpen, setMenuOpen] = useState(false)
 
   return (
-    <header className="sticky top-0 z-50 border-b border-border bg-background/95 backdrop-blur-xl transition-all duration-300">
+    <header className="sticky top-0 z-50 border-b border-white/10 bg-background/75 backdrop-blur-2xl transition-all duration-300">
       <nav aria-label="Main navigation" className="mx-auto flex h-14 max-w-6xl items-center justify-between px-4 sm:px-6">
         <Link
           href="/"
