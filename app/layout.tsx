@@ -5,44 +5,12 @@ import { SiteNav } from '@/components/site-nav'
 import { SiteFooter } from '@/components/site-footer'
 import './globals.css'
 
-const archivo = Archivo({
-  subsets: ['latin'],
-  variable: '--font-archivo',
-})
+const archivo = Archivo({ subsets: ['latin'], variable: '--font-archivo' })
+const instrument = Instrument_Serif({ subsets: ['latin'], weight: '400', style: ['normal', 'italic'], variable: '--font-instrument' })
 
-const instrument = Instrument_Serif({
-  subsets: ['latin'],
-  weight: '400',
-  style: ['normal', 'italic'],
-  variable: '--font-instrument',
-})
+export const metadata: Metadata = { title: 'VIGIL — Trust the signal', description: 'VIGIL is the voice-integrity layer for a world that can no longer hear the difference between real and generated.', generator: 'v0.app', keywords: ['voice integrity', 'synthetic media', 'audio verification', 'cybersecurity'] }
+export const viewport: Viewport = { colorScheme: 'dark light', themeColor: '#0b1018', userScalable: true }
 
-export const metadata: Metadata = {
-  title: 'Kabir Raj Singh — Editor, Colorist, Visual Storyteller',
-  description:
-    'Cinematic portfolio of Kabir Raj Singh — video editor, colorist, and visual storyteller from India. Retention-first edits, color grading, 3D, and applied AI tools.',
-  generator: 'v0.app',
-  keywords: ['video editor', 'colorist', 'Kabir Studios', 'cinematic editing'],
-}
-
-export const viewport: Viewport = {
-  colorScheme: 'dark',
-  themeColor: '#161513',
-}
-
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode
-}>) {
-  return (
-    <html lang="en" className={`bg-background ${archivo.variable} ${instrument.variable}`}>
-      <body className="antialiased film-grain">
-        <SiteNav />
-        {children}
-        <SiteFooter />
-        {process.env.NODE_ENV === 'production' && <Analytics />}
-      </body>
-    </html>
-  )
+export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
+  return <html lang="en" className={`${archivo.variable} ${instrument.variable}`}><body className="antialiased film-grain"><SiteNav />{children}<SiteFooter />{process.env.NODE_ENV === 'production' && <Analytics />}</body></html>
 }
